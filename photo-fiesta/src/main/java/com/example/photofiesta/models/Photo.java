@@ -29,11 +29,12 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(Long id, String name, String description, String imageUrl) {
+    public Photo(Long id, String name, String description, String imageUrl, Album album) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.album = album;
     }
 
     public Long getId() {
@@ -68,6 +69,14 @@ public class Photo {
         this.imageUrl = imageUrl;
     }
 
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
@@ -75,6 +84,7 @@ public class Photo {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", album='" + album + '\'' +
                 '}';
     }
 }
