@@ -41,6 +41,8 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
   <strong>Acceptance Criteria</strong>: Given a list of photos is available in the specified album, When I want to view all photos, Then all of the photos are displayed<br>
   <strong>Acceptance Criteria</strong>: Given a list of photos is available in the specified album, When I want view a specific photo, Then the correct photo is displayed.<br> <br>
 </details>
+
 ## ERD Diagram
+![ERD Diagram Image](./erd-diagram.png)
 
 
