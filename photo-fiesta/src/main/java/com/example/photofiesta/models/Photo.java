@@ -1,5 +1,7 @@
 package com.example.photofiesta.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +20,11 @@ public class Photo {
 
     @Column
     private String imageUrl;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "albumId")
+    private Album album;
 
     public Photo() {
     }
