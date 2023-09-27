@@ -1,6 +1,11 @@
 package com.example.photofiesta.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "albums")
@@ -15,6 +20,17 @@ public class Album {
 
     @Column
     private String description;
+
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "album", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Photo> photoList;
+
 
     public Album() {
     }
@@ -47,6 +63,22 @@ public class Album {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
     }
 
     @Override
