@@ -6,9 +6,9 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
 <details>
   <summary>User Registration and Login</summary>
   <strong>User Story</strong>: As a new user, I want to be able to register for an account with an email and password. <br>
-  <strong>Acceptance Criteria</strong>: Given I am a new user when I register my account is created then I have secure access to my account. <br> <br>
+  <strong>Acceptance Criteria</strong>: Given I am a new user, when I register my account is created, then I have secure access to my account. <br> <br>
   <strong>User Story</strong>: As a registered user, I want to be able to login to my account securely. <br> 
-  <strong>Acceptance Criteria</strong>: Given I am a registered user when I login with my correct email and password then I have access to the application features. <br> <br>
+  <strong>Acceptance Criteria</strong>: Given I am a registered user, when I login with my correct email and password, then I have access to the application features. <br> <br>
 </details>
 <details>
   <summary>User Album Management</summary>
@@ -34,7 +34,7 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
   <strong>Acceptance Criteria</strong>: Given I am a logged in user, when I edit  the title and description of a photo, then the photo is updated. <br><br>
   <strong>User Story</strong>: As a logged in user, I want to view one or all photos in an album.<br>
   <strong>Acceptance Criteria</strong>: Given a list of photos is available in the specified album, when I want to view all photos, then all of the photos are displayed<br>
-  <strong>Acceptance Criteria</strong>: Given a list of photos is available in the specified album, when I want view a specific photo, then the correct photo is displayed.<br> <br>
+  <strong>Acceptance Criteria</strong>: Given a list of photos is available in the specified album, when I want to view a specific photo, then the correct photo is displayed.<br> <br>
 </details>
 
 ## ERD Diagram
