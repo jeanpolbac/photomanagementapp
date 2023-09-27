@@ -6,7 +6,7 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
 <details>
   <summary>User Registration and Login</summary>
   <strong>User Story</strong>: As a new user, I want to be able to register for an account with an email and password. <br>
-  <strong>Acceptance Criteria</strong>: Given I am a new user, when I register my account is created, then I have secure access to my account. <br> <br>
+  <strong>Acceptance Criteria</strong>: Given I am a new user, when I register, then my account is created. <br> <br>
   <strong>User Story</strong>: As a registered user, I want to be able to login to my account securely. <br> 
   <strong>Acceptance Criteria</strong>: Given I am a registered user, when I login with my correct email and password, then I have access to the application features. <br> <br>
 </details>
@@ -38,6 +38,6 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
 </details>
 
 ## ERD Diagram
-![ERD Diagram Image](./erd-diagram.png)
+![ERD Diagram Image](./erd-diagram-correct.png)
 
 
