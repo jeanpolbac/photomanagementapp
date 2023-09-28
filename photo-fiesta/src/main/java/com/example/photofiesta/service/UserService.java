@@ -6,8 +6,11 @@ import com.example.photofiesta.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -36,6 +39,11 @@ public class UserService {
             throw new RuntimeException("User already exists"); //ToDo update with InformationExistException
         }
     }
+
+    //TODO complete loginUser method
+//    public Optional<String> loginUser(LoginRequest loginRequest) {
+//        UsernamePasswordAuthenticationToken
+//    }
 
     public User findByUserEmailAddress(String emailAddress) {
         return userRepository.findUserByEmailAddress(emailAddress);
