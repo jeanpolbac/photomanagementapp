@@ -2,12 +2,16 @@ package com.example.photofiesta.service;
 
 import com.example.photofiesta.exception.InformationExistException;
 import com.example.photofiesta.models.User;
+import com.example.photofiesta.models.request.LoginRequest;
 import com.example.photofiesta.repository.UserRepository;
 import com.example.photofiesta.security.JWTUtils;
+import com.example.photofiesta.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +46,17 @@ public class UserService {
     }
 
     //TODO complete loginUser method
-//    public Optional<String> loginUser(LoginRequest loginRequest) {
-//        UsernamePasswordAuthenticationToken
-//    }
+    public Optional<String> loginUser(LoginRequest loginRequest) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(), loginRequest.getPassword());
+        try {
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            return Optional.of(jwtUtils.generateJwtToken(myUserDetails));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
     public User findByUserEmailAddress(String emailAddress) {
         return userRepository.findUserByEmailAddress(emailAddress);
