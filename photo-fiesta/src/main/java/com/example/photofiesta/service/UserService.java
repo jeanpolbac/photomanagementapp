@@ -1,5 +1,6 @@
 package com.example.photofiesta.service;
 
+import com.example.photofiesta.exception.InformationExistException;
 import com.example.photofiesta.models.User;
 import com.example.photofiesta.repository.UserRepository;
 import com.example.photofiesta.security.JWTUtils;
@@ -36,7 +37,7 @@ public class UserService {
             userObject.setPassword(passwordEncoder.encode((userObject.getPassword())));
             return userRepository.save(userObject);
         } else {
-            throw new RuntimeException("User already exists"); //ToDo update with InformationExistException
+            throw new InformationExistException("user email address " + userObject.getEmailAddress() + " already exists");
         }
     }
 
