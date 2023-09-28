@@ -15,4 +15,8 @@ public class SecurityConfiguration {
     }
 
 
+    @Bean
+    public JwtRequestFilter authJwtRequestFilter() {
+        return new JwtRequestFilter();
+    }
 }
