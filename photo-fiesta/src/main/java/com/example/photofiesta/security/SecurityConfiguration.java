@@ -27,13 +27,14 @@ public class SecurityConfiguration {
         return new JwtRequestFilter();
     }
 
+    // "/auth/users/login/", "/auth/users/register/
     // Bean for configuring the security filter chain.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // Define which endpoints are accessible without authentication.
         http.authorizeRequests().antMatchers("/auth/users", "/auth/users/login/", "/auth/users/register/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/auth/hello/").permitAll()
+                .antMatchers("/auth/users/hello/").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Set session creation policy to STATELESS.

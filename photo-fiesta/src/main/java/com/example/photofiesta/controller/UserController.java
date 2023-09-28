@@ -17,7 +17,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/auth/hello/")
+    @GetMapping(path = "/hello/")
     public String getHello() {
         return "Hello";
     }

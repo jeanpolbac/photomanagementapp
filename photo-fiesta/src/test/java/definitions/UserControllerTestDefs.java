@@ -25,7 +25,7 @@ public class UserControllerTestDefs {
     private static final Logger logger = Logger.getLogger(UserControllerTestDefs.class.getName());
 
     private static final String BASE_URL = "http://localhost:";
-    private static final String basePath = "/auth/hello/";
+    private static final String basePath = "/auth/users/hello/";
 
     @LocalServerPort
     String port;
