@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Custom implementation of Spring Security's UserDetailsService.
+ * This service is responsible for loading user details from the database for authentication purposes.
+ */
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
