@@ -33,7 +33,7 @@ public class SecurityConfiguration {
         // Define which endpoints are accessible without authentication.
         http.authorizeRequests().antMatchers("/auth/users", "/auth/users/login/", "/auth/users/register/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/helloworld/").permitAll()
+                .antMatchers("/auth/hello/").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Set session creation policy to STATELESS.
