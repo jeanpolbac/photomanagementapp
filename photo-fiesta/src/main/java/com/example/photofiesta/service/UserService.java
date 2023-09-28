@@ -35,7 +35,13 @@ public class UserService {
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
     }
-
+    /**
+     * Create a new user in the system.
+     *
+     * @param userObject The User object to be created.
+     * @return The created User object.
+     * @throws InformationExistException if the user's email address already exists in the system.
+     */
     public User createUser(User userObject) {
         if (!userRepository.existsByEmailAddress(userObject.getEmailAddress())) {
             userObject.setPassword(passwordEncoder.encode((userObject.getPassword())));
@@ -45,7 +51,12 @@ public class UserService {
         }
     }
 
-    //TODO complete loginUser method
+    /**
+     * Login a user and generate a JWT token upon successful authentication.
+     *
+     * @param loginRequest The login request containing user credentials.
+     * @return An Optional containing the JWT token if authentication is successful, otherwise empty.
+     */
     public Optional<String> loginUser(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(), loginRequest.getPassword());
         try {
