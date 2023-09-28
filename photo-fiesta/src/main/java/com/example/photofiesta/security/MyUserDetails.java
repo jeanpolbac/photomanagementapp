@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * Custom UserDetails implementation for representing user information in Spring Security.
+ */
 public class MyUserDetails implements UserDetails {
     private final User user;
 
