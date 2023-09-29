@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3b2d5fd-dfcb-4d18-8366-00ea18120727" name="Changes" comment="" />
+    <list default="true" id="a3b2d5fd-dfcb-4d18-8366-00ea18120727" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +15,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2VziQ7jvlNgxaotzB5P3qrzMCjk" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,8 +28,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "/Users/slickrick/Desktop/unit2/photomanagementapp",
+    "git-widget-placeholder": "models",
+    "last_opened_file_path": "C:/Users/kuzco/OneDrive/Desktop/unit2/project/photomanagementapp",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -44,6 +46,7 @@
       <option name="presentableId" value="Default" />
       <updated>1695845290883</updated>
       <workItem from="1695845291944" duration="268000" />
+      <workItem from="1695849750450" duration="62000" />
     </task>
     <servers />
   </component>
