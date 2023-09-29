@@ -94,7 +94,8 @@ public class UserControllerTestDefs {
 
     @Given("The registered user exists")
     public void theRegisteredUserExists() {
-        
+
+
     }
 
     @When("The user inputs their email address and password")
