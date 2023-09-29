@@ -17,9 +17,11 @@ import org.junit.Assert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @CucumberContextConfiguration
@@ -111,6 +113,21 @@ public class UserControllerTestDefs {
         Assert.assertNotNull(response.jsonPath().getString("jwt"));
     }
 
+    // Testing Albums--
+    @Given("A list of albums are available")
+    public void aListOfAlbumsAreAvailable() {
+        try {
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.GET, null, String.class);
+            List<Map<String, String>> albums = JsonPath.from(String.valueOf(response.getBody())).get("data");
+            Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+            Assert.assertTrue(albums.size() > 0);
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @When("I add a album to my list")
+    public void iAddAAlbumToMyList() {
+    }
 }
 
