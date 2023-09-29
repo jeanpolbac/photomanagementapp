@@ -103,11 +103,12 @@ public class UserControllerTestDefs {
     }
     @When("The user details are validated")
     public void theUserDetailsAreValidated() {
-
+        Assert.assertEquals(200, response.getStatusCode());
     }
+
     @Then("The user receives a jwt token")
     public void theUserReceivesAJwtToken() {
-
+        Assert.assertNotNull(response.jsonPath().getString("jwt"));
     }
 
 
