@@ -1,6 +1,7 @@
 package com.example.photofiesta.service;
 
 import com.example.photofiesta.exception.InformationExistException;
+import com.example.photofiesta.models.Album;
 import com.example.photofiesta.models.User;
 import com.example.photofiesta.models.request.LoginRequest;
 import com.example.photofiesta.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -27,6 +29,7 @@ public class UserService {
     private final JWTUtils jwtUtils;
 
     private final AuthenticationManager authenticationManager;
+
 
     @Autowired
     public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JWTUtils jwtUtils, @Lazy AuthenticationManager authenticationManager) {
@@ -45,7 +48,15 @@ public class UserService {
     public User createUser(User userObject) {
         if (!userRepository.existsByEmailAddress(userObject.getEmailAddress())) {
             userObject.setPassword(passwordEncoder.encode((userObject.getPassword())));
-            return userRepository.save(userObject);
+            if (userObject.getAlbumList() == null) {
+                userObject.setAlbumList(new ArrayList<>());
+            }
+            Album defaultAlbum = new Album();
+            defaultAlbum.setName(userObject.getUserName() + "'s Album");
+            defaultAlbum.setUser(userObject);
+            userObject.getAlbumList().add(defaultAlbum);
+            userRepository.save(userObject);
+            return userObject;
         } else {
             throw new InformationExistException("user email address " + userObject.getEmailAddress() + " already exists");
         }
@@ -72,5 +83,4 @@ public class UserService {
     public User findByUserEmailAddress(String emailAddress) {
         return userRepository.findUserByEmailAddress(emailAddress);
     }
-
 }
