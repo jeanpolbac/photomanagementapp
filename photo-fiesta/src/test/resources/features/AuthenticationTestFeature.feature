@@ -13,6 +13,6 @@ Feature: Rest API functionalities
 
   Scenario: User able to login and receive jwt token
     Given The registered user exists
-    When The user inputs their email address and password
+    When The user details are validated
     Then The user receives a jwt token
 

@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.logging.Logger;
@@ -93,18 +94,22 @@ public class UserControllerTestDefs {
     }
 
     @Given("The registered user exists")
-    public void theRegisteredUserExists() {
-
+    public void theRegisteredUserExists() throws JSONException {
+        RequestSpecification request = RestAssured.given();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("emailAddress", "john.doe@example.com");
+        jsonObject.put("password","hashed_password123");
+        response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + "/auth/users/login/");
+    }
+    @When("The user details are validated")
+    public void theUserDetailsAreValidated() {
 
     }
-
-    @When("The user inputs their email address and password")
-    public void theUserInputsTheirEmailAddressAndPassword() {
-        
-    }
-
     @Then("The user receives a jwt token")
     public void theUserReceivesAJwtToken() {
+
     }
+
+
 }
 
