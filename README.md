@@ -40,4 +40,8 @@ Photo Fiesta is a monolithic backend developed using Spring Boot that provides a
 ## ERD Diagram
 ![ERD Diagram Image](./erd-diagram-correct.png)
 
+## REST API Endpoints
+| Endpoint     | Request Type | URL                            | Functionality                                      | Access              |
+|--------------|--------------|--------------------------------|----------------------------------------------------|---------------------|
+| Register     | POST         | `/auth/users/register/`         | Registers a new user with the provided user data. | Public              |
 
