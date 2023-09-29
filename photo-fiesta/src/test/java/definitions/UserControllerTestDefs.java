@@ -91,5 +91,19 @@ public class UserControllerTestDefs {
         String message = jsonPath.get("message");
         Assert.assertEquals("success", message);
     }
+
+    @Given("The registered user exists")
+    public void theRegisteredUserExists() {
+        
+    }
+
+    @When("The user inputs their email address and password")
+    public void theUserInputsTheirEmailAddressAndPassword() {
+        
+    }
+
+    @Then("The user receives a jwt token")
+    public void theUserReceivesAJwtToken() {
+    }
 }
 
