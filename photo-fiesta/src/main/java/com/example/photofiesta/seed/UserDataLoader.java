@@ -3,6 +3,7 @@ package com.example.photofiesta.seed;
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.models.Photo;
 import com.example.photofiesta.models.User;
+import com.example.photofiesta.repository.AlbumRepository;
 import com.example.photofiesta.repository.PhotoRepository;
 import com.example.photofiesta.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,15 @@ public class UserDataLoader implements CommandLineRunner {
 
     private final PhotoRepository photoRepository;
 
+    private final AlbumRepository albumRepository;
 
     @Autowired
-    public UserDataLoader(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, PhotoRepository photoRepository) {
+    public UserDataLoader(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder,
+                          PhotoRepository photoRepository, AlbumRepository albumRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.photoRepository = photoRepository;
+        this.albumRepository = albumRepository;
     }
 
     @Override
@@ -53,8 +57,9 @@ public class UserDataLoader implements CommandLineRunner {
             Album secondAlbum = new Album();
             secondAlbum.setName(user1.getUserName() + "'s second Album");
             secondAlbum.setUser(user1);
-            user1.getAlbumList().add(secondAlbum);
-            userRepository.save(user1);
+            albumRepository.save(secondAlbum);
+            //user1.getAlbumList().add(secondAlbum);
+            //userRepository.save(user1);
 
             Photo photo1 = new Photo(null,
                     "Beach",
