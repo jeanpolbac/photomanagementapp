@@ -50,6 +50,12 @@ public class UserDataLoader implements CommandLineRunner {
             user1.getAlbumList().add(defaultAlbum);
             userRepository.save(user1);
 
+            Album secondAlbum = new Album();
+            secondAlbum.setName(user1.getUserName() + "'s second Album");
+            secondAlbum.setUser(user1);
+            user1.getAlbumList().add(secondAlbum);
+            userRepository.save(user1);
+
             Photo photo1 = new Photo(null,
                     "Beach",
                     "A beautiful beach",
