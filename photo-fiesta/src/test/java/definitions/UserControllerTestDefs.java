@@ -63,7 +63,7 @@ public class UserControllerTestDefs {
     @Given("The register url is {string}")
     public void theRegisterUrl(String url) {
         response = RestAssured.given().contentType(ContentType.JSON).when().post(BASE_URL + port + url);
-        Assert.assertEquals(400, response.getStatusCode());
+        Assert.assertEquals(400, response.getStatusCode()); //ToDo refactor to assertFalse 403 ?
     }
 
     @When("User sends a POST request with user details")
