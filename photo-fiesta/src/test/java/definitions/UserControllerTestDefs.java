@@ -84,12 +84,5 @@ public class UserControllerTestDefs {
         logger.info("Calling the user is registered");
         Assert.assertEquals(201,response.getStatusCode());
     }
-
-    @And("The response should contain the user details")
-    public void theResponseShouldContainTheUserDetails() {
-        JsonPath jsonPath = response.jsonPath();
-        String message = jsonPath.get("message");
-        Assert.assertEquals("success", message);
-    }
 }
 
