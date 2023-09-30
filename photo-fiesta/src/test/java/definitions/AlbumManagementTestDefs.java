@@ -1,6 +1,8 @@
 package definitions;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -63,5 +65,33 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         } catch (HttpClientErrorException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @When("I add a album to my list")
+    public void iAddAAlbumToMyList() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+
+    @Then("The album is added")
+    public void theAlbumIsAdded() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+
+    @When("I delete an album in my list")
+    public void iDeleteAnAlbumInMyList() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+
+    @Then("The album is removed")
+    public void theAlbumIsRemoved() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
     }
 }
