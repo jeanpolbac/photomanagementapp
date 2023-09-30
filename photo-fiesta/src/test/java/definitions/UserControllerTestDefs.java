@@ -1,11 +1,9 @@
 package definitions;
 
-import com.example.photofiesta.PhotoFiestaApplication;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -14,30 +12,16 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
-@CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = PhotoFiestaApplication.class)
-
-
-public class UserControllerTestDefs {
+public class UserControllerTestDefs extends TestSetupDefs {
 
     private static final Logger logger = Logger.getLogger(UserControllerTestDefs.class.getName());
 
-    private static final String BASE_URL = "http://localhost:";
     private static final String basePath = "/auth/users/hello/";
-
-
-    @LocalServerPort
-    String port;
 
     private static Response response;
 
@@ -111,23 +95,6 @@ public class UserControllerTestDefs {
     @Then("The user receives a jwt token")
     public void theUserReceivesAJwtToken() {
         Assert.assertNotNull(response.jsonPath().getString("jwt"));
-    }
-
-    // Testing Albums--
-    @Given("A list of albums are available")
-    public void aListOfAlbumsAreAvailable() {
-        try {
-            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.GET, null, String.class);
-            List<Map<String, String>> albums = JsonPath.from(String.valueOf(response.getBody())).get("data");
-            Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-            Assert.assertTrue(albums.size() > 0);
-        } catch (HttpClientErrorException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @When("I add a album to my list")
-    public void iAddAAlbumToMyList() {
     }
 }
 
