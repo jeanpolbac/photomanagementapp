@@ -50,9 +50,11 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         try {
             ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.GET, entity, String.class);
             String responseBody = String.valueOf(response.getBody());
+            logger.info("Response body: " + responseBody);
             if (responseBody != null && !responseBody.isEmpty()) {
 
                 List<Map<String, String>> albums = JsonPath.from(String.valueOf(response.getBody())).get("data");
+
                 Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
                 Assert.assertTrue(albums.size() > 0);
             } else {
