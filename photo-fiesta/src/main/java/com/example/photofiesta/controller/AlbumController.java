@@ -1,6 +1,7 @@
 package com.example.photofiesta.controller;
 
 import com.example.photofiesta.models.Album;
+import com.example.photofiesta.models.Photo;
 import com.example.photofiesta.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,20 @@ public class AlbumController {
         } else {
             message.put("message", "unable to create album.");
             return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+    }
+
+
+    @PostMapping("/albums/1/photos/")
+    public ResponseEntity<?> createAlbumPhoto(@RequestBody Photo photoObject){
+        Photo photo = albumService.createAlbumPhoto(photoObject);
+        if(photo != null){
+            message.put("message","success, photo added to default album");
+            message.put("data",photo);
+            return new ResponseEntity<>(message,HttpStatus.CREATED);
+        } else {
+            message.put("message", "unable to add new photo");
+            return new ResponseEntity<>(message,HttpStatus.OK);
         }
     }
 

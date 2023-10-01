@@ -130,15 +130,26 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I add a new photo")
-    public void iAddANewPhoto() {
-        Photo photo = new Photo();
-        albumService.createAlbumPhoto(1L,photo);
-        Assert.assertNotNull(albumRepository.findByUserId(1L).get(0).getPhotoList());
+    public void iAddANewPhoto() throws JSONException {
+        // Creating authorization and content type
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        headers.add("Content-Type", "application/json");
+
+        // Creating object to pass through
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "New Test Photo");
+        requestBody.put("description", "New Description");
+        requestBody.put("imageUrl","http://test-image/image.jpeg");
+
+        // Build our post request
+        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.POST, entity, String.class);
     }
 
     @Then("The photo is added to my default album")
     public void thePhotoIsAddedToMyDefaultAlbum() {
-
+        Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
 }
