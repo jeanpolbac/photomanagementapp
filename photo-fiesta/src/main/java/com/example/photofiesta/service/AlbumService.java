@@ -43,8 +43,8 @@ public class AlbumService {
         return userDetails.getUser();
     }
 
-    public Photo createAlbumPhoto(Photo photoObject) {
-        Album album = getCurrentLoggedInUser().getAlbumList().get(0);
+    public Photo createAlbumPhoto(Long userId, Photo photoObject) {
+        Album album = albumRepository.findByUserId(userId).get(0);
         Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),album.getId());
         if(photo != null){
             throw new InformationExistException("A photo with the image url " + photoObject.getImageUrl() + " already exists!");
