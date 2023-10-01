@@ -4,6 +4,6 @@ Feature: Rest API functionalities
     Given A logged in user
     And A list of albums are available
     When I add a album to my list
-#    Then The album is added
-#    When I delete an album in my list
-#    Then The album is removed
+    Then The album is added
+    When I delete an album in my list
+    Then The album is removed
