@@ -33,15 +33,20 @@ public class AlbumController {
 
     @PostMapping("/albums/")
     public ResponseEntity<?> createUserAlbum(@RequestBody Album albumObject) {
-        Album album = albumService.createAlbum(albumObject);
-        if (album != null) {
+        Album albumToCreate = albumService.createAlbum(albumObject);
+        if (albumToCreate != null) {
             message.put("message", "success, album created");
-            message.put("data", album);
+            message.put("data", albumToCreate);
             return new ResponseEntity<>(message, HttpStatus.CREATED);
         } else {
             message.put("message", "unable to create album.");
             return new ResponseEntity<>(message, HttpStatus.OK);
         }
+    }
+
+    @DeleteMapping("/albums/{albumId}")
+    public ResponseEntity<?> deleteUserAlbum(@PathVariable(value = "albumId") Long albumId) {
+       return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }
