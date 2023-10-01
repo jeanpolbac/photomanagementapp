@@ -32,8 +32,16 @@ public class AlbumController {
     }
 
     @PostMapping("/albums/")
-    public ResponseEntity<?> createAlbum() {
-        return ResponseEntity.ok("you've reached create album");
+    public ResponseEntity<?> createUserAlbum(@RequestBody Album albumObject) {
+        Album album = albumService.createAlbum(albumObject);
+        if (album != null) {
+            message.put("message", "success, album created");
+            message.put("data", album);
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        } else {
+            message.put("message", "unable to create album.");
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
     }
 
 }
