@@ -1,5 +1,8 @@
 package definitions;
 
+import com.example.photofiesta.models.Album;
+import com.example.photofiesta.repository.AlbumRepository;
+import com.example.photofiesta.service.AlbumService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,6 +13,7 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +24,11 @@ import java.util.logging.Logger;
 
 public class AlbumManagementTestDefs extends TestSetupDefs {
     private static final Logger logger = Logger.getLogger(definitions.AlbumManagementTestDefs.class.getName());
+
+    @Autowired
+    private AlbumService albumService;
+    @Autowired
+    private AlbumRepository albumRepository;
 
     public String getJWTKey() throws JSONException {
 
@@ -70,8 +79,10 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
     @When("I add a album to my list")
     public void iAddAAlbumToMyList() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Album album = new Album();
+        album.setName("New Test Album");
+        albumService.createAlbum(album);
+        Assert.assertNotNull(albumRepository.findByName(album.getName()));
     }
 
 
