@@ -122,15 +122,11 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1", HttpMethod.DELETE, entity, String.class);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+
     }
 
 
     @Then("The album is removed")
     public void theAlbumIsRemoved() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());    }
 }
