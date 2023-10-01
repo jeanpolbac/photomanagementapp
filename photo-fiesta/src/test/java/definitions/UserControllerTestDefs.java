@@ -39,6 +39,26 @@ public class UserControllerTestDefs {
     @LocalServerPort
     String port;
 
+    public static String getJWTKey(String port) throws JSONException {
+        // Set the base URI and create a request
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+
+        // Set the content-type header to indicate JSON data
+        request.header("Content-Type", "application/json");
+
+        // Create a JSON request body with user email and password
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("email", "suresh@ga.com");
+        requestBody.put("password", "password");
+
+        // Send a POST request to the authentication endpoint
+        Response response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/auth/users/login");
+
+        // Extract and return the JWT key from the authentication response
+        return response.jsonPath().getString("jwt");
+    }
+
     private static Response response;
 
     @Given("A valid public endpoint")
@@ -129,5 +149,19 @@ public class UserControllerTestDefs {
     @When("I add a album to my list")
     public void iAddAAlbumToMyList() {
     }
-}
 
+    @Then("The album is added")
+    public void theAlbumIsAdded() {
+
+    }
+
+    @When("I delete an album in my list")
+    public void iDeleteAnAlbumInMyList() {
+
+    }
+
+    @Then("The album is removed")
+    public void theAlbumIsRemoved() {
+    }
+
+}
