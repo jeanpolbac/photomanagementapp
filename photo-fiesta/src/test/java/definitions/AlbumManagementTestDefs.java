@@ -112,12 +112,17 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I delete an album in my list")
-    public void iDeleteAnAlbumInMyList() {
-        Album albumToDelete = new Album();
-        albumToDelete.setName("delete album");
-        albumService.createAlbum(albumToDelete);
-//        albumService.deleteAlbum(albumToDelete.getId());
-        Assert.assertEquals("Album deleted", albumService.deleteAlbum(albumToDelete.getId()));
+    public void iDeleteAnAlbumInMyList() throws JSONException {
+        // Creating authorization and content type
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        headers.add("Content-Type", "application/json");
+
+        // Build our post request
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1", HttpMethod.DELETE, entity, String.class);
+
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
 
