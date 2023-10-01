@@ -38,16 +38,4 @@ public class AlbumService {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUser();
     }
-
-    //TODO implement controller and then test
-    public Album createAlbum(Album albumObject) {
-        User currentLoggedInUser = getCurrentLoggedInUser();
-        Album album = albumRepository.findByName(albumObject.getName());
-        if (album != null) {
-            throw new InformationExistException("album with name " + albumObject.getName() + " already exists");
-        } else {
-            albumObject.setUser(getCurrentLoggedInUser());
-            return albumRepository.save(albumObject);
-        }
-    }
 }
