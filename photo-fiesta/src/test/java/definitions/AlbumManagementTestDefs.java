@@ -69,29 +69,52 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I add a album to my list")
-    public void iAddAAlbumToMyList() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void iAddAAlbumToMyList() throws JSONException {
+        logger.info("calling iAddAAlbumToMyList");
+        String jwtToken = retrieveJwtTokenFromContext();
+//        String jwtToken = getJWTKey();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Authorization", "Bearer " + jwtToken);
+//        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        try {
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.GET, entity, String.class);
+            String responseBody = String.valueOf(response.getBody());
+            if (responseBody != null && !responseBody.isEmpty()) {
+////                RequestSpecification request = RestAssured.given();
+////                JSONObject requestBody = new JSONObject();
+////                requestBody.put("name", "test album");
+////                requestBody.put("description", "test description");
+////                request.header("Content-Type", "application/json");
+//                response = request.body(requestBody.toString()).post(BASE_URL + port + "/api/albums/");
+                Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+            }
+//            } else {
+//                Assert.fail("Album not created");
+//            }
+        } catch (HttpClientErrorException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
-    @Then("The album is added")
-    public void theAlbumIsAdded() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-
-    @When("I delete an album in my list")
-    public void iDeleteAnAlbumInMyList() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-
-    @Then("The album is removed")
-    public void theAlbumIsRemoved() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
+//    @Then("The album is added")
+//    public void theAlbumIsAdded() {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//
+//    @When("I delete an album in my list")
+//    public void iDeleteAnAlbumInMyList() {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//
+//    @Then("The album is removed")
+//    public void theAlbumIsRemoved() {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
 }
