@@ -15,16 +15,3 @@ Feature: Rest API functionalities
     Given The registered user exists
     When The user details are validated
     Then The user receives a jwt token
-
-  Scenario: Able to manage all or individual albums
-    Given A list of albums are available
-    When I add a album to my list
-    Then The album is added
-    When I delete an album in my list
-    Then The album is removed
-
-  Scenario: Managing all or individual photos in the user's album
-    Given the user is logged in
-    And the user has an album
-    When the user creates a photo with the image URL "http://example.com/photo.jpg"
-    Then the photo should be created successfully

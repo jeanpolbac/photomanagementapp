@@ -34,6 +34,10 @@ public class AlbumService {
         return albumList;
     }
 
+    public Album createAlbum(Album album) {
+        return albumRepository.save(album);
+    }
+
     public static User getCurrentLoggedInUser() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUser();

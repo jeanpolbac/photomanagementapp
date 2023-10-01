@@ -25,6 +25,7 @@ public class UserDataLoader implements CommandLineRunner {
 
     private final AlbumRepository albumRepository;
 
+
     @Autowired
     public UserDataLoader(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder,
                           PhotoRepository photoRepository, AlbumRepository albumRepository) {
@@ -58,8 +59,6 @@ public class UserDataLoader implements CommandLineRunner {
             secondAlbum.setName(user1.getUserName() + "'s second Album");
             secondAlbum.setUser(user1);
             albumRepository.save(secondAlbum);
-            //user1.getAlbumList().add(secondAlbum);
-            //userRepository.save(user1);
 
             Photo photo1 = new Photo(null,
                     "Beach",
