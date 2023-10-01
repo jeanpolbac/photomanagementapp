@@ -22,3 +22,9 @@ Feature: Rest API functionalities
     Then The album is added
     When I delete an album in my list
     Then The album is removed
+
+  Scenario: Managing all or individual photos in the user's album
+    Given the user is logged in
+    And the user has an album
+    When the user creates a photo with the image URL "http://example.com/photo.jpg"
+    Then the photo should be created successfully
