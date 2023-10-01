@@ -5,9 +5,7 @@ import com.example.photofiesta.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +28,19 @@ public class AlbumController {
             message.put("message", "Able to retrieve albums");
             message.put("data", albumList);
             return new  ResponseEntity<>(message, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/albums/")
+    public ResponseEntity<?> createUserAlbum(@RequestBody Album albumObject) {
+        Album album = albumService.createAlbum(albumObject);
+        if (album != null) {
+            message.put("message", "success, album created");
+            message.put("data", album);
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        } else {
+            message.put("message", "unable to create album.");
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
 

@@ -3,6 +3,7 @@ package definitions;
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.repository.AlbumRepository;
 import com.example.photofiesta.service.AlbumService;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -30,6 +31,9 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     @Autowired
     private AlbumRepository albumRepository;
 
+    private static ResponseEntity<String> response;
+
+
     public String getJWTKey() throws JSONException {
 
         // Set the base URI and create a request
@@ -52,7 +56,13 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         return response.jsonPath().getString("jwt");
     }
 
-    @Given("A list of albums are available")
+    @Given("A logged in user")
+    public void aLoggedInUser() throws JSONException {
+        RequestSpecification request = RestAssured.given();
+        request.header("Authorization", "Bearer " + getJWTKey());
+    }
+
+    @And("A list of albums are available")
     public void aListOfAlbumsAreAvailable() throws JSONException {
         String jwtToken = getJWTKey();
         HttpHeaders headers = new HttpHeaders();
@@ -78,18 +88,26 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I add a album to my list")
-    public void iAddAAlbumToMyList() {
-        Album album = new Album();
-        album.setName("New Test Album");
-        albumService.createAlbum(album);
-        Assert.assertNotNull(albumRepository.findByName(album.getName()));
+    public void iAddAAlbumToMyList() throws JSONException {
+        // Creating authorization and content type
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        headers.add("Content-Type", "application/json");
+
+        // Creating object to pass through
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "New Test Album");
+        requestBody.put("description", "New Description");
+
+        // Build our post request
+        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.POST, entity, String.class);
     }
 
 
     @Then("The album is added")
     public void theAlbumIsAdded() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
 
@@ -105,4 +123,6 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
+
+
 }
