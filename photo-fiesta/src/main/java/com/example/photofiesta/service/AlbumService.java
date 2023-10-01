@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlbumService {
@@ -32,6 +33,17 @@ public class AlbumService {
     public Album createAlbum(Album album) {
         return albumRepository.save(album);
     }
+
+    public String deleteAlbum (Long albumId) {
+        Optional<Album> album = albumRepository.findById(albumId);
+        if (album.isPresent()) {
+            albumRepository.deleteById(albumId);
+            return "Album deleted" ;
+        } else {
+            throw new InformationNotFoundException("Album id " + albumId + " not found!");
+        }
+    }
+
 
     public static User getCurrentLoggedInUser() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

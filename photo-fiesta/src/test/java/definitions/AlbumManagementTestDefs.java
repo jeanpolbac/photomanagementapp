@@ -113,8 +113,11 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
     @When("I delete an album in my list")
     public void iDeleteAnAlbumInMyList() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Album albumToDelete = new Album();
+        albumToDelete.setName("delete album");
+        albumService.createAlbum(albumToDelete);
+//        albumService.deleteAlbum(albumToDelete.getId());
+        Assert.assertEquals("Album deleted", albumService.deleteAlbum(albumToDelete.getId()));
     }
 
 
