@@ -36,6 +36,7 @@ public class UserControllerTestDefs {
 
     private static final String BASE_URL = "http://localhost:";
     private static final String basePath = "/auth/users/hello/";
+    ResponseEntity<String> postResponse;
 
     @Autowired
     AlbumService albumService;
@@ -204,13 +205,12 @@ public class UserControllerTestDefs {
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         // Send a POST request to create the photo
-        ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.POST, requestEntity, String.class);
-
+        postResponse = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.POST, requestEntity, String.class);
     }
 
     @Then("the photo should be created successfully")
     public void thePhotoShouldBeCreatedSuccessfully() {
-        Assert.assertEquals(201, response.getStatusCode());
+        Assert.assertEquals(201, postResponse.getStatusCode());
 
     }
 }
