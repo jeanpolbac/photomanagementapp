@@ -56,7 +56,7 @@ public class AlbumService {
     public Photo createAlbumPhoto(Long albumId, Photo photoObject) {
         Album album = albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId());
         if(album == null){
-            photoObject.setAlbum(albumRepository.findByIdAndUserId(1L, getCurrentLoggedInUser().getId()));
+            photoObject.setAlbum(albumRepository.findByIdAndUserId(getCurrentLoggedInUser().getAlbumList().get(0).getId(), getCurrentLoggedInUser().getId()));
         } else {
             photoObject.setAlbum(album);
         }
