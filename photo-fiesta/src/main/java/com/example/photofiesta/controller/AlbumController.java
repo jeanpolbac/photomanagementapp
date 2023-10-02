@@ -1,5 +1,6 @@
 package com.example.photofiesta.controller;
 
+import com.example.photofiesta.exception.InformationNotFoundException;
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,14 @@ public class AlbumController {
 
     @DeleteMapping("/albums/{albumId}")
     public ResponseEntity<?> deleteUserAlbum(@PathVariable(value = "albumId") Long albumId) {
-       return new ResponseEntity<>(message, HttpStatus.OK);
+        try {
+            String deleteStatus = albumService.deleteAlbum(albumId);
+            message.put("message", deleteStatus);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (InformationNotFoundException e) {
+            message.put("message", e.getMessage());
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
     }
 
 }
