@@ -67,6 +67,13 @@ public class UserDataLoader implements CommandLineRunner {
                     user1.getAlbumList().get(0)
             );
             photoRepository.save(photo1);
+            Photo photo2 = new Photo(null,
+                    "Desert",
+                    "A sand dune",
+                    "http://example.com/desert.jpg",
+                    user1.getAlbumList().get(0)
+            );
+            photoRepository.save(photo2);
         }
     }
 
