@@ -43,6 +43,13 @@ public class AlbumService {
         return userDetails.getUser();
     }
 
+    /**
+     * Retrieves a list of photos belonging to the specified album ID for the current logged-in user.
+     *
+     * @param albumId The unique identifier of the album.
+     * @return A {@link List} of {@link Photo} objects associated with the specified album ID.
+     * @throws InformationNotFoundException If the album with the given ID doesn't exist.
+     */
     public List<Photo> getAlbumPhotos(Long albumId) {
         Optional<Album> optionalAlbum = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if (optionalAlbum.isPresent()) {
@@ -52,6 +59,13 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Retrieves a list of photos belonging to the specified album ID for the current logged-in user.
+     *
+     * @param albumId The unique identifier of the album.
+     * @return A {@link List} of {@link Photo} objects associated with the specified album ID.
+     * @throws InformationNotFoundException If the album with the given ID doesn't exist.
+     */
     public Photo getAlbumPhoto(Long albumId, Long photoId) {
         Optional<Album> albumOptional = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if (albumOptional.isPresent()) {
