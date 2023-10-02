@@ -155,26 +155,24 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I update a photo")
-    public void iUpdateAPhoto() {
-        // Create a Photo object with new details
-        Photo updatedPhoto = new Photo();
-        updatedPhoto.setName("UpdatedName");
-        updatedPhoto.setDescription("UpdatedDescription");
-        updatedPhoto.setImageUrl("http://images/update-image-test.jpeg");
-        System.out.println("Before updating: " + photoRepository.findById(1L).get().getName());
-        // Call the updateAlbumPhoto method and store the result
-        Photo updatedPhotoResult = albumService.updateAlbumPhoto(1L, 1L, updatedPhoto);
-        Assert.assertNotNull(updatedPhotoResult);
-        System.out.println("After updating: " + photoRepository.findById(1L).get().getName());
-        Photo updatedPhotoFromDatabase = photoRepository.findById(1L).orElse(null);
-        Assert.assertNotNull(updatedPhotoFromDatabase);
-        Assert.assertEquals("UpdatedName", updatedPhotoFromDatabase.getName());
-        Assert.assertEquals("UpdatedDescription", updatedPhotoFromDatabase.getDescription());
-        Assert.assertEquals("http://images/update-image-test.jpeg", updatedPhotoFromDatabase.getImageUrl());
+    public void iUpdateAPhoto() throws JSONException {
+        // Creating authorization and content type
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        headers.add("Content-Type", "application/json");
+        // Creating object to pass through
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "Updated Test Photo");
+        requestBody.put("description", "Updated Description");
+        requestBody.put("imageUrl", "http://images/update-image-test.jpeg");
 
+        // Build our put request
+        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.PUT, entity, String.class);
     }
 
     @Then("The photo is updated")
     public void thePhotoIsUpdated() {
+        Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 }

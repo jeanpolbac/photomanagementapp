@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -46,9 +47,9 @@ public class AlbumController {
     }
 
 
-    @PostMapping("/albums/1/photos/")
-    public ResponseEntity<?> createAlbumPhoto(@RequestBody Photo photoObject){
-        Photo photo = albumService.createAlbumPhoto(photoObject);
+    @PostMapping("/albums/{albumId}/photos/")
+    public ResponseEntity<?> createAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @RequestBody Photo photoObject){
+        Photo photo = albumService.createAlbumPhoto(albumId,photoObject);
         if(photo != null){
             message.put("message","success, photo added to default album");
             message.put("data",photo);
@@ -58,5 +59,19 @@ public class AlbumController {
             return new ResponseEntity<>(message,HttpStatus.OK);
         }
     }
+
+    @PutMapping("/albums/{albumId}/photos/{photoId}")
+    public ResponseEntity<?> updateAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @PathVariable(value = "photoId") Long photoId,@RequestBody Photo photoObject){
+        Optional<Photo> photoToUpdate = Optional.of(albumService.updateAlbumPhoto(albumId,photoId,photoObject));
+        if(photoToUpdate.isEmpty()){
+            message.put("message","Cannot find photo with id " + photoId + " to update");
+            return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
+        } else {
+            message.put("message","photo with id " + photoId + " has been successfully updated");
+            message.put("data",photoToUpdate.get());
+            return new ResponseEntity<>(message,HttpStatus.OK);
+        }
+    }
+
 
 }

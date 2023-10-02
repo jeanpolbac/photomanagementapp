@@ -44,8 +44,8 @@ public class AlbumService {
         return userDetails.getUser();
     }
 
-    public Photo createAlbumPhoto(Photo photoObject) {
-        Album album = getCurrentLoggedInUser().getAlbumList().get(0);
+    public Photo createAlbumPhoto(Long albumId, Photo photoObject) {
+        Album album = albumRepository.findByIdAndUserId(albumId,getCurrentLoggedInUser().getId());
         Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),album.getId());
         if(photo != null){
             throw new InformationExistException("A photo with the image url " + photoObject.getImageUrl() + " already exists!");
@@ -55,7 +55,7 @@ public class AlbumService {
     }
 
     public Photo updateAlbumPhoto(Long albumId, Long photoId, Photo photoObject){
-        Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId,1L));
+        Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if(albumOptional.isPresent()){
             Optional<Photo> photoOptional = photoRepository.findByAlbumId(albumId).stream().filter(photo -> photo.getId().equals(photoId)).findFirst();
             if(photoOptional.isEmpty()){
@@ -65,7 +65,6 @@ public class AlbumService {
                 existingPhoto.setName(photoObject.getName());
                 existingPhoto.setDescription(photoObject.getDescription());
                 existingPhoto.setImageUrl(photoObject.getImageUrl());
-                existingPhoto.setAlbum(photoObject.getAlbum());
                 return photoRepository.save(existingPhoto);
                 }
         } else {
