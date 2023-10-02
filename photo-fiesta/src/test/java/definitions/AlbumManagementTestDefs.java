@@ -25,10 +25,6 @@ import java.util.logging.Logger;
 public class AlbumManagementTestDefs extends TestSetupDefs {
     private static final Logger logger = Logger.getLogger(definitions.AlbumManagementTestDefs.class.getName());
     private static ResponseEntity<String> response;
-    private static final String TypeJson = "application/json";
-    private static String userLoginEndpoint = "/auth/users/login/";
-    private static String userAlbumsEndpoint = "/api/albums/";
-    private static String userSpecificAlbumEnpoint = "/api/albums/1";
 
 
     @Autowired
@@ -60,7 +56,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         requestBody.put("password", "hashed_password123");
 
         // Send a POST request to the authentication endpoint
-        Response response = request.body(requestBody.toString()).post(BASE_URL + port + userLoginEndpoint);
+        Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
 
         // Extract and return the JWT token from the authentication response
         return response.jsonPath().getString("jwt");

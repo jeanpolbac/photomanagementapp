@@ -21,13 +21,11 @@ public class UserControllerTestDefs extends TestSetupDefs {
 
     private static final Logger logger = Logger.getLogger(UserControllerTestDefs.class.getName());
 
-    private static final String basePath = "/auth/users/hello/";
-
     private static Response response;
 
     @Given("A valid public endpoint")
     public void aValidPublicEndpoint() {
-        ResponseEntity<String> responseEntity = new RestTemplate().exchange(BASE_URL + port + basePath, HttpMethod.GET, null, String.class);
+        ResponseEntity<String> responseEntity = new RestTemplate().exchange(BASE_URL + port + helloEndpoint, HttpMethod.GET, null, String.class);
         Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
 
@@ -35,7 +33,7 @@ public class UserControllerTestDefs extends TestSetupDefs {
     public void iSayHello() {
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
-        response = request.get(BASE_URL + port + basePath);
+        response = request.get(BASE_URL + port + helloEndpoint);
     }
 
     @Then("Hello is shown")
@@ -63,7 +61,7 @@ public class UserControllerTestDefs extends TestSetupDefs {
         requestBody.put("emailAddress","slick@gmail.com");
         requestBody.put("password","password123");
         request.header("Content-Type","application/json");
-        response = request.body(requestBody.toString()).post(BASE_URL + port + "/auth/users/register/");
+        response = request.body(requestBody.toString()).post(BASE_URL + port + registerEndpoint);
     }
 
     @Then("The response status should be ok")
@@ -85,7 +83,7 @@ public class UserControllerTestDefs extends TestSetupDefs {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("emailAddress", "john.doe@example.com");
         jsonObject.put("password","hashed_password123");
-        response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + "/auth/users/login/");
+        response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + loginEndpoint);
     }
     @When("The user details are validated")
     public void theUserDetailsAreValidated() {
