@@ -25,8 +25,10 @@ import java.util.logging.Logger;
 public class AlbumManagementTestDefs extends TestSetupDefs {
     private static final Logger logger = Logger.getLogger(definitions.AlbumManagementTestDefs.class.getName());
     private static ResponseEntity<String> response;
-    private static final String CONTENT_TYPE_JSON = "application/json";
-
+    private static final String TypeJson = "application/json";
+    private static String userLoginEndpoint = "/auth/users/login/";
+    private static String userAlbumsEndpoint = "/api/albums/";
+    private static String userSpecificAlbumEnpoint = "/api/albums/1";
 
 
     @Autowired
@@ -37,20 +39,20 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
     private HttpHeaders createAuthHeaders() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + getJWTKey());
-        headers.add("Content-Type", CONTENT_TYPE_JSON);
+        headers.add("Authorization", "Bearer " + getJWTToken());
+        headers.add("Content-Type", TypeJson);
         return headers;
     }
 
 
-    public String getJWTKey() throws JSONException {
-        logger.info("TestJWTKey: Generated");
+    public String getJWTToken() throws JSONException {
+        logger.info("TestJWTToken: Generated");
         // Set the base URI and create a request
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
 
         // Set the content-type header to indicate JSON data
-        request.header("Content-Type", "application/json");
+        request.header("Content-Type", TypeJson);
 
         // Create a JSON request body with user email and password
         JSONObject requestBody = new JSONObject();
@@ -58,10 +60,9 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         requestBody.put("password", "hashed_password123");
 
         // Send a POST request to the authentication endpoint
-        String endpoint = "/auth/users/login/";
-        Response response = request.body(requestBody.toString()).post(BASE_URL + port + endpoint);
+        Response response = request.body(requestBody.toString()).post(BASE_URL + port + userLoginEndpoint);
 
-        // Extract and return the JWT key from the authentication response
+        // Extract and return the JWT token from the authentication response
         return response.jsonPath().getString("jwt");
     }
 
@@ -69,7 +70,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     public void aLoggedInUser() throws JSONException {
         logger.info("Step: A logged in user");
         RequestSpecification request = RestAssured.given();
-        request.header("Authorization", "Bearer " + getJWTKey());
+        request.header("Authorization", "Bearer " + getJWTToken());
     }
 
     @And("A list of albums are available")
@@ -84,7 +85,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
         try {
             // Send a GET request to retrieve the list of albums
-            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = new RestTemplate().exchange(BASE_URL + port + userAlbumsEndpoint, HttpMethod.GET, entity, String.class);
             String responseBody = String.valueOf(response.getBody());
             logger.info("Response body: " + responseBody);
 
@@ -118,7 +119,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
         // Build our post request
         HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/", HttpMethod.POST, entity, String.class);
+        response = new RestTemplate().exchange(BASE_URL + port + userAlbumsEndpoint, HttpMethod.POST, entity, String.class);
     }
 
 
@@ -130,7 +131,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I delete an album in my list")
-    public void iDeleteAnAlbumInMyList() throws JSONException {
+    public void iDeleteAnAlbumInMyList() {
         logger.info("Step: I delete an album in my list");
         // Creating authorization and content type
         try {
@@ -138,7 +139,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
             // Build our post request
             HttpEntity<String> entity = new HttpEntity<>(null, headers);
-            response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1", HttpMethod.DELETE, entity, String.class);
+            response = new RestTemplate().exchange(BASE_URL + port + userSpecificAlbumEnpoint, HttpMethod.DELETE, entity, String.class);
             logger.info("Response Status: " + response.getStatusCode());
         } catch (Exception e) {
             logger.warning("Test: Error while deleting an album " + e.getMessage());
