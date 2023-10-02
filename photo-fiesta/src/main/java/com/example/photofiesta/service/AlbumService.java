@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlbumService {
@@ -51,5 +52,24 @@ public class AlbumService {
         }
         photoObject.setAlbum(album);
         return photoRepository.save(photoObject);
+    }
+
+    public Photo updateAlbumPhoto(Long albumId, Long photoId, Photo photoObject){
+        Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId,1L));
+        if(albumOptional.isPresent()){
+            Optional<Photo> photoOptional = photoRepository.findByAlbumId(albumId).stream().filter(photo -> photo.getId().equals(photoId)).findFirst();
+            if(photoOptional.isEmpty()){
+                throw new InformationNotFoundException("A photo with id " + photoId + " is not found");
+            } else {
+                Photo existingPhoto = photoOptional.get();
+                existingPhoto.setName(photoObject.getName());
+                existingPhoto.setDescription(photoObject.getDescription());
+                existingPhoto.setImageUrl(photoObject.getImageUrl());
+                existingPhoto.setAlbum(photoObject.getAlbum());
+                return photoRepository.save(existingPhoto);
+                }
+        } else {
+            throw new InformationNotFoundException("An album with id " + albumId + " does not exist.");
+        }
     }
 }

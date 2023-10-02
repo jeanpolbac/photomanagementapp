@@ -2,9 +2,11 @@ package definitions;
 
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.models.Photo;
+import com.example.photofiesta.models.User;
 import com.example.photofiesta.repository.AlbumRepository;
 import com.example.photofiesta.repository.PhotoRepository;
 import com.example.photofiesta.service.AlbumService;
+import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -141,7 +143,6 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         requestBody.put("name", "New Test Photo");
         requestBody.put("description", "New Description");
         requestBody.put("imageUrl","http://test-image/image.jpeg");
-
         // Build our post request
         HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
         response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.POST, entity, String.class);
@@ -152,4 +153,28 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
+
+    @When("I update a photo")
+    public void iUpdateAPhoto() {
+        // Create a Photo object with new details
+        Photo updatedPhoto = new Photo();
+        updatedPhoto.setName("UpdatedName");
+        updatedPhoto.setDescription("UpdatedDescription");
+        updatedPhoto.setImageUrl("http://images/update-image-test.jpeg");
+        System.out.println("Before updating: " + photoRepository.findById(1L).get().getName());
+        // Call the updateAlbumPhoto method and store the result
+        Photo updatedPhotoResult = albumService.updateAlbumPhoto(1L, 1L, updatedPhoto);
+        Assert.assertNotNull(updatedPhotoResult);
+        System.out.println("After updating: " + photoRepository.findById(1L).get().getName());
+        Photo updatedPhotoFromDatabase = photoRepository.findById(1L).orElse(null);
+        Assert.assertNotNull(updatedPhotoFromDatabase);
+        Assert.assertEquals("UpdatedName", updatedPhotoFromDatabase.getName());
+        Assert.assertEquals("UpdatedDescription", updatedPhotoFromDatabase.getDescription());
+        Assert.assertEquals("http://images/update-image-test.jpeg", updatedPhotoFromDatabase.getImageUrl());
+
+    }
+
+    @Then("The photo is updated")
+    public void thePhotoIsUpdated() {
+    }
 }

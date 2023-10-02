@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Long> {
     List<Album> findByUserId(Long userId);
-
+    Album findByIdAndUserId(Long albumId, Long userId);
     List<Album> findByName(String albumName);
 
 }

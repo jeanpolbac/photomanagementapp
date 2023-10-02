@@ -9,3 +9,5 @@ Feature: Rest API functionalities
 #    Then The album is removed
     When I add a new photo
     Then The photo is added to my default album
+    When I update a photo
+    Then The photo is updated
