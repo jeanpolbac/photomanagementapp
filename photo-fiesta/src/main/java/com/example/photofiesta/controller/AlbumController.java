@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -28,7 +29,7 @@ public class AlbumController {
         } else {
             message.put("message", "Able to retrieve albums");
             message.put("data", albumList);
-            return new  ResponseEntity<>(message, HttpStatus.OK);
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
 
@@ -45,16 +46,18 @@ public class AlbumController {
         }
     }
 
-    @DeleteMapping("/albums/{albumId}")
+    @DeleteMapping("/albums/{albumId}/")
     public ResponseEntity<?> deleteUserAlbum(@PathVariable(value = "albumId") Long albumId) {
-        try {
-            String deleteStatus = albumService.deleteAlbum(albumId);
-            message.put("message", deleteStatus);
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        } catch (InformationNotFoundException e) {
-            message.put("message", e.getMessage());
+        Optional<Album> albumToDelete = albumService.deleteAlbum(albumId);
+        if (albumToDelete.isEmpty()) {
+            message.put("message", "Cannot find Album with ID " + albumId);
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else {
+            message.put("message", "Album with ID " + albumId + " has been successfully deleted");
+            message.put("data", albumToDelete.get());
+            return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
-
 }
+
+
