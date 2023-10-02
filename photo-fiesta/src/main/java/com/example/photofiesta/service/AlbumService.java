@@ -4,6 +4,7 @@ import com.example.photofiesta.exception.InformationNotFoundException;
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.models.User;
 import com.example.photofiesta.repository.AlbumRepository;
+import com.example.photofiesta.repository.UserRepository;
 import com.example.photofiesta.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AlbumService(AlbumRepository albumRepository) {
+    public AlbumService(AlbumRepository albumRepository, UserRepository userRepository) {
         this.albumRepository = albumRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -43,6 +46,7 @@ public class AlbumService {
      * @return The created album
      */
     public Album createAlbum(Album album) {
+        album.setUser(AlbumService.getCurrentLoggedInUser());
         return albumRepository.save(album);
     }
 
@@ -53,15 +57,22 @@ public class AlbumService {
      * @return A message confirming the deletion
      * @throws InformationNotFoundException if the album is not found
      */
-    public String deleteAlbum (Long albumId) {
-        Optional<Album> album = albumRepository.findById(albumId);
-        if (album.isPresent()) {
-            albumRepository.deleteById(albumId);
-            return "Album deleted" ;
+    public Optional<Album> deleteAlbum (Long albumId) {
+        Optional<Album> albumOptional = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
+        if (albumOptional.isPresent()) {
+            albumOptional.get().setUser(null);
+            albumRepository.save(albumOptional.get());
+
+            //ToDo WHY IS THIS NOT WORKING????
+            albumRepository.deleteById(albumOptional.get().getId());
+            return albumOptional;
         } else {
-            throw new InformationNotFoundException("Album ID " + albumId + " not found!");
+            throw new InformationNotFoundException("Album ID " + albumId + " does not belong to the current user!");
         }
     }
+
+
+
 
     /**
      * Get the currently logged-in user
