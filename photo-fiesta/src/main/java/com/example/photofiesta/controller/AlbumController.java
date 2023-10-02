@@ -1,6 +1,7 @@
 package com.example.photofiesta.controller;
 
 import com.example.photofiesta.models.Album;
+import com.example.photofiesta.models.Photo;
 import com.example.photofiesta.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,14 @@ public class AlbumController {
 
     @GetMapping("/albums/{albumId}/photos/")
     public ResponseEntity<?> getPhotos(@PathVariable(value = "albumId") Long albumId) {
-        return (ResponseEntity<?>) ResponseEntity.ok();
+        List<Photo> photoList = albumService.getAlbumPhotos(albumId);
+        if (photoList.isEmpty()) {
+            message.put("message", "cannot find photos in album");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else {
+            message.put("message", "success");
+            message.put("data", photoList);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
     }
 }
