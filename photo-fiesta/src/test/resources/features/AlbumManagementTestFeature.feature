@@ -9,3 +9,5 @@ Feature: Rest API functionalities
 #    Then The album is removed
     When I view the photos in my album
     Then I see a list of photos
+    When I view a single photo in my album
+    Then I see a single photo
