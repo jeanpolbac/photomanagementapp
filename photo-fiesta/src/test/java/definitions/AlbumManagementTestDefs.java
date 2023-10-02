@@ -1,6 +1,10 @@
 package definitions;
 
+import com.example.photofiesta.exception.InformationNotFoundException;
+import com.example.photofiesta.models.Album;
+import com.example.photofiesta.models.Photo;
 import com.example.photofiesta.repository.AlbumRepository;
+import com.example.photofiesta.repository.PhotoRepository;
 import com.example.photofiesta.service.AlbumService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -29,6 +33,9 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     private AlbumService albumService;
     @Autowired
     private AlbumRepository albumRepository;
+
+    @Autowired
+    private PhotoRepository photoRepository;
 
     private static ResponseEntity<String> response;
 
@@ -110,18 +117,28 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     }
 
 
-    @When("I delete an album in my list")
-    public void iDeleteAnAlbumInMyList() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+//    @When("I delete an album in my list")
+//    public void iDeleteAnAlbumInMyList() {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//
+//    @Then("The album is removed")
+//    public void theAlbumIsRemoved() {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+
+
+    @When("I view the photos in my album")
+    public void iViewThePhotosInMyAlbum() throws InformationNotFoundException {
+        List<Photo> defaultAlbumPhotoList = albumService.getAlbumPhotos(1L);
+        logger.info("default PHOTO LIST ----> " + defaultAlbumPhotoList);
+        Assert.assertNotNull(defaultAlbumPhotoList);
     }
 
-
-    @Then("The album is removed")
-    public void theAlbumIsRemoved() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-
+//    @Then("I see a list of photos")
+//    public void iSeeAListOfPhotos() {
+//    }
 }
