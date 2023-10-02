@@ -73,7 +73,7 @@ public class AlbumService {
     }
 
     public Optional<Photo> deleteAlbumPhoto(Long albumId, Long photoId){
-        Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId, 1L));
+        Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if(albumOptional.isPresent()){
             Optional<Photo> photoOptional = photoRepository.findByAlbumId(albumId).stream().filter(photo -> photo.getId().equals(photoId)).findFirst();
             if(photoOptional.isEmpty()){

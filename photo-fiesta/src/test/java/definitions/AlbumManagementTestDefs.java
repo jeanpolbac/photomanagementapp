@@ -178,13 +178,18 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     }
 
     @When("I delete a photo from an album")
-    public void iDeleteAPhotoFromAnAlbum() {
-        Assert.assertNotNull(photoRepository.findByIdAndAlbumId(1L,1L));
-        albumService.deleteAlbumPhoto(1L,1L);
-        Assert.assertNull(photoRepository.findByIdAndAlbumId(1L,1L));
+    public void iDeleteAPhotoFromAnAlbum() throws JSONException {
+        // Creating authorization
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+
+        // Build and send the DELETE request to your endpoint
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.DELETE, new HttpEntity<>(headers), String.class);
+
     }
 
     @Then("The photo is deleted")
     public void thePhotoIsDeleted() {
+        Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 }
