@@ -24,13 +24,23 @@ import java.util.logging.Logger;
 
 public class AlbumManagementTestDefs extends TestSetupDefs {
     private static final Logger logger = Logger.getLogger(definitions.AlbumManagementTestDefs.class.getName());
+    private static ResponseEntity<String> response;
+    private static final String CONTENT_TYPE_JSON = "application/json";
+
+
 
     @Autowired
     private AlbumService albumService;
     @Autowired
     private AlbumRepository albumRepository;
 
-    private static ResponseEntity<String> response;
+
+    private HttpHeaders createAuthHeaders() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        headers.add("Content-Type", CONTENT_TYPE_JSON);
+        return headers;
+    }
 
 
     public String getJWTKey() throws JSONException {
@@ -66,11 +76,8 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     public void aListOfAlbumsAreAvailable() throws JSONException {
         logger.info("Step: A list of albums are available");
         // Obtain the JWT token for authorization
-        String jwtToken = getJWTKey();
-
         // Create HTTP headers with the JWT token for authentication
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + jwtToken);
+        HttpHeaders headers = createAuthHeaders();
 
         // Create an HTTP entity with the headers
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
@@ -102,9 +109,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     public void iAddAAlbumToMyList() throws JSONException {
         logger.info("Step: I add a album to my list");
         // Creating authorization and content type
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + getJWTKey());
-        headers.add("Content-Type", "application/json");
+        HttpHeaders headers = createAuthHeaders();
 
         // Creating an object to pass through
         JSONObject requestBody = new JSONObject();
@@ -129,9 +134,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         logger.info("Step: I delete an album in my list");
         // Creating authorization and content type
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + getJWTKey());
-            headers.add("Content-Type", "application/json");
+            HttpHeaders headers = createAuthHeaders();
 
             // Build our post request
             HttpEntity<String> entity = new HttpEntity<>(null, headers);
