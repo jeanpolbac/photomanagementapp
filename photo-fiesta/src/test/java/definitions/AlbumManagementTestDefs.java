@@ -132,13 +132,14 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
 
     @When("I view the photos in my album")
-    public void iViewThePhotosInMyAlbum() throws InformationNotFoundException {
-        List<Photo> defaultAlbumPhotoList = albumService.getAlbumPhotos(1L);
-        logger.info("default PHOTO LIST ----> " + defaultAlbumPhotoList);
-        Assert.assertNotNull(defaultAlbumPhotoList);
+    public void iViewThePhotosInMyAlbum() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.GET, new HttpEntity<>(headers), String.class);
     }
 
-//    @Then("I see a list of photos")
-//    public void iSeeAListOfPhotos() {
-//    }
+    @Then("I see a list of photos")
+    public void iSeeAListOfPhotos() {
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 }
