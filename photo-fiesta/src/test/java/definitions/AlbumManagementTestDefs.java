@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class AlbumManagementTestDefs extends TestSetupDefs {
@@ -174,5 +175,16 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     @Then("The photo is updated")
     public void thePhotoIsUpdated() {
         Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+    }
+
+    @When("I delete a photo from an album")
+    public void iDeleteAPhotoFromAnAlbum() {
+        Assert.assertNotNull(photoRepository.findByIdAndAlbumId(1L,1L));
+        albumService.deleteAlbumPhoto(1L,1L);
+        Assert.assertNull(photoRepository.findByIdAndAlbumId(1L,1L));
+    }
+
+    @Then("The photo is deleted")
+    public void thePhotoIsDeleted() {
     }
 }
