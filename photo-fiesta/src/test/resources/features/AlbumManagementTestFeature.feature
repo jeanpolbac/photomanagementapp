@@ -13,3 +13,7 @@ Feature: Rest API functionalities
     Then The photo is updated
     When I delete a photo from an album
     Then The photo is deleted
+    When I view the photos in my album
+    Then I see a list of photos
+    When I view a single photo in my album
+    Then I see a single photo

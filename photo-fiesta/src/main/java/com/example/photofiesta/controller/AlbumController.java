@@ -47,6 +47,32 @@ public class AlbumController {
         }
     }
 
+    @GetMapping("/albums/{albumId}/photos/")
+    public ResponseEntity<?> getPhotos(@PathVariable(value = "albumId") Long albumId) {
+        List<Photo> photoList = albumService.getAlbumPhotos(albumId);
+        if (photoList.isEmpty()) {
+            message.put("message", "cannot find photos in album");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else {
+            message.put("message", "success");
+            message.put("data", photoList);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/albums/{albumId}/photos/{photoId}/")
+    public ResponseEntity<?> getAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @PathVariable(value = "photoId") Long photoId) {
+        Optional<Photo> photoOptional = Optional.ofNullable(albumService.getAlbumPhoto(albumId, photoId));
+        if (photoOptional.isPresent()) {
+            message.put("message", "success");
+            message.put("data", photoOptional.get());
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            message.put("message", "cannot find photo in album");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
     @DeleteMapping("/albums/{albumId}/")
     public ResponseEntity<?> deleteUserAlbum(@PathVariable(value = "albumId") Long albumId) {
         Optional<Album> albumToDelete = albumService.deleteAlbum(albumId);

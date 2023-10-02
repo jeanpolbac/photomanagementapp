@@ -1,12 +1,9 @@
 package definitions;
 
-import com.example.photofiesta.models.Album;
-import com.example.photofiesta.models.Photo;
-import com.example.photofiesta.models.User;
+
 import com.example.photofiesta.repository.AlbumRepository;
 import com.example.photofiesta.repository.PhotoRepository;
 import com.example.photofiesta.service.AlbumService;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -25,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 public class AlbumManagementTestDefs extends TestSetupDefs {
@@ -39,7 +35,6 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     private AlbumRepository albumRepository;
     @Autowired
     private PhotoRepository photoRepository;
-
 
     private HttpHeaders createAuthHeaders() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
@@ -148,8 +143,8 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         } catch (Exception e) {
             logger.warning("Test: Error while deleting an album " + e.getMessage());
         }
-    }
 
+    }
 
     @Then("The album is removed")
     public void theAlbumIsRemoved() {
@@ -157,6 +152,15 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    @When("I view the photos in my album")
+    public void iViewThePhotosInMyAlbum() throws JSONException {
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.GET, new HttpEntity<>(createAuthHeaders()), String.class);
+    }
+
+    @Then("I see a list of photos")
+    public void iSeeAListOfPhotos() {
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
     @When("I add a new photo")
     public void iAddANewPhoto() throws JSONException {
@@ -176,6 +180,15 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
+    @When("I view a single photo in my album")
+    public void iViewASinglePhotoInMyAlbum() throws JSONException {
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.GET, new HttpEntity<>(createAuthHeaders()), String.class);
+    }
+
+    @Then("I see a single photo")
+    public void iSeeASinglePhoto() {
+            Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
     @When("I update a photo")
     public void iUpdateAPhoto() throws JSONException {

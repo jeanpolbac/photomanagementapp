@@ -160,4 +160,41 @@ public class AlbumService {
         throw new InformationNotFoundException("An album with id " + " does not exist.");
     }
 
+
+    /**
+     * Retrieves a list of photos belonging to the specified album ID for the current logged-in user.
+     *
+     * @param albumId The unique identifier of the album.
+     * @return A {@link List} of {@link Photo} objects associated with the specified album ID.
+     * @throws InformationNotFoundException If the album with the given ID doesn't exist.
+     */
+    public List<Photo> getAlbumPhotos(Long albumId) {
+        Optional<Album> optionalAlbum = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
+        if (optionalAlbum.isPresent()) {
+            return optionalAlbum.get().getPhotoList();
+        } else {
+            throw new InformationNotFoundException("album with id: " + albumId + " doesn't exist");
+        }
+    }
+
+    /**
+     * Retrieves a list of photos belonging to the specified album ID for the current logged-in user.
+     *
+     * @param albumId The unique identifier of the album.
+     * @return A {@link List} of {@link Photo} objects associated with the specified album ID.
+     * @throws InformationNotFoundException If the album with the given ID doesn't exist.
+     */
+    public Photo getAlbumPhoto(Long albumId, Long photoId) {
+        Optional<Album> albumOptional = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
+        if (albumOptional.isPresent()) {
+            Optional<Photo> photoOptional = photoRepository.findByAlbumId(albumId).stream().filter(p -> p.getId().equals(photoId)).findFirst();
+            if (photoOptional.isEmpty()) {
+                throw new InformationNotFoundException("photo with id: " + photoId + "in this album does not exist");
+            } else {
+                return photoOptional.get();
+            }
+        } else {
+            throw new InformationNotFoundException("album with id: " + albumId + " doesn't exist");
+        }
+    }
 }
