@@ -142,4 +142,14 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     public void iSeeAListOfPhotos() {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
+    @When("I view a single photo in my album")
+    public void iViewASinglePhotoInMyAlbum() {
+        Photo getPhotoExample = albumService.getAlbumPhoto(1L, 1L);
+        Assert.assertNotNull(getPhotoExample);
+    }
+
+    @Then("I see a single photo")
+    public void iSeeASinglePhoto() {
+    }
 }
