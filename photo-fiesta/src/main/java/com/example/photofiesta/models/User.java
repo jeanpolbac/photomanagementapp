@@ -25,7 +25,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Album> albumList;
 
