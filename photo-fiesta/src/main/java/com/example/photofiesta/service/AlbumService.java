@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -62,21 +64,18 @@ public class AlbumService {
      * @return A message confirming the deletion
      * @throws InformationNotFoundException if the album is not found
      */
-    public Optional<Album> deleteAlbum (Long albumId) {
+    public Optional<Album> deleteAlbum(Long albumId) {
         Optional<Album> albumOptional = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if (albumOptional.isPresent()) {
             albumOptional.get().setUser(null);
             albumRepository.save(albumOptional.get());
 
-            //ToDo WHY IS THIS NOT WORKING????
             albumRepository.deleteById(albumOptional.get().getId());
             return albumOptional;
         } else {
             throw new InformationNotFoundException("Album ID " + albumId + " does not belong to the current user!");
         }
     }
-
-
 
 
     /**
@@ -90,27 +89,33 @@ public class AlbumService {
     }
 
     /**
-     * Creates a new photo and associates it with a specific album.
+     * Creates and associates a photo with an album for the current logged-in user.
      *
-     * @param albumId The ID of the album in which the photo will be added.
-     * @param photoObject The photo object containing photo details.
-     * @return The newly created photo object.
-     * @throws InformationExistException If a photo with the same image URL already exists in the album.
-     * @throws InformationNotFoundException If the specified album or user does not exist.
+     * @param albumId The ID of the album to which the photo should be associated.
+     * @param photoObject The photo object containing the image URL and other details.
+     * @return A map containing the created photo and a message describing the operation.
+     * @throws InformationExistException if a photo with the same image URL already exists in the specified album.
      */
-    public Photo createAlbumPhoto(Long albumId, Photo photoObject) {
+    public Map<String, Object> createAlbumPhoto(Long albumId, Photo photoObject) {
+        Map<String, Object> response = new HashMap<>();
         Album album = albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId());
-        if(album == null){
+        String message;
+        if (album == null) {
             photoObject.setAlbum(albumRepository.findByIdAndUserId(getCurrentLoggedInUser().getAlbumList().get(0).getId(), getCurrentLoggedInUser().getId()));
+            message = "Photo added to the default album because the specified album does not exist.";
         } else {
             photoObject.setAlbum(album);
+            message = "Photo added to the specified album.";
         }
-        Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),photoObject.getAlbum().getId());
-        if(photo != null){
+        Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(), photoObject.getAlbum().getId());
+        if (photo != null) {
             throw new InformationExistException("A photo with the image url " + photoObject.getImageUrl() + " already exists!");
         }
-        return photoRepository.save(photoObject);
+        response.put("photo", photoRepository.save(photoObject));
+        response.put("message", message);
+        return response;
     }
+
 
     /**
      * Updates the details of a photo in a specific album.
