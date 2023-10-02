@@ -8,4 +8,4 @@ Feature: Rest API functionalities
 #    When I delete an album in my list
 #    Then The album is removed
     When I view the photos in my album
-#    Then I see a list of photos
+    Then I see a list of photos
