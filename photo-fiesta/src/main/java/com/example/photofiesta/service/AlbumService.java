@@ -44,6 +44,15 @@ public class AlbumService {
         return userDetails.getUser();
     }
 
+    /**
+     * Creates a new photo and associates it with a specific album.
+     *
+     * @param albumId The ID of the album in which the photo will be added.
+     * @param photoObject The photo object containing photo details.
+     * @return The newly created photo object.
+     * @throws InformationExistException If a photo with the same image URL already exists in the album.
+     * @throws InformationNotFoundException If the specified album or user does not exist.
+     */
     public Photo createAlbumPhoto(Long albumId, Photo photoObject) {
         Album album = albumRepository.findByIdAndUserId(albumId,getCurrentLoggedInUser().getId());
         Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),album.getId());
@@ -54,6 +63,15 @@ public class AlbumService {
         return photoRepository.save(photoObject);
     }
 
+    /**
+     * Updates the details of a photo in a specific album.
+     *
+     * @param albumId The ID of the album containing the photo to be updated.
+     * @param photoId The ID of the photo to be updated.
+     * @param photoObject The updated photo object with new details.
+     * @return The updated photo object.
+     * @throws InformationNotFoundException If the specified album, photo, or album user does not exist.
+     */
     public Photo updateAlbumPhoto(Long albumId, Long photoId, Photo photoObject){
         Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if(albumOptional.isPresent()){
@@ -72,6 +90,14 @@ public class AlbumService {
         }
     }
 
+    /**
+     * Deletes a photo from an album.
+     *
+     * @param albumId The ID of the album from which the photo will be deleted.
+     * @param photoId The ID of the photo to be deleted.
+     * @return An optional containing the deleted photo if successful, otherwise an empty optional.
+     * @throws InformationNotFoundException If the specified album or photo does not exist.
+     */
     public Optional<Photo> deleteAlbumPhoto(Long albumId, Long photoId){
         Optional<Album> albumOptional = Optional.of(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if(albumOptional.isPresent()){

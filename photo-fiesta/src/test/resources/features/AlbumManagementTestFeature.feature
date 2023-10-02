@@ -5,8 +5,8 @@ Feature: Rest API functionalities
     And A list of albums are available
     When I add a album to my list
     Then The album is added
-#    When I delete an album in my list
-#    Then The album is removed
+    When I delete an album in my list
+    Then The album is removed
     When I add a new photo
     Then The photo is added to my default album
     When I update a photo

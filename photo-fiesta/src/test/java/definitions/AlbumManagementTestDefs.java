@@ -118,18 +118,18 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     }
 
 
-//    @When("I delete an album in my list")
-//    public void iDeleteAnAlbumInMyList() {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
+    @When("I delete an album in my list")
+    public void iDeleteAnAlbumInMyList() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
 
 
-//    @Then("The album is removed")
-//    public void theAlbumIsRemoved() {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
+    @Then("The album is removed")
+    public void theAlbumIsRemoved() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
 
 
     @When("I add a new photo")
