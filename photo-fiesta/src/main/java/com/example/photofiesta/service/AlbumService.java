@@ -44,7 +44,7 @@ public class AlbumService {
     }
 
     public List<Photo> getAlbumPhotos(Long albumId) {
-        Optional<Album> optionalAlbum = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, 1L));
+        Optional<Album> optionalAlbum = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId()));
         if (optionalAlbum.isPresent()) {
             return optionalAlbum.get().getPhotoList();
         } else {
