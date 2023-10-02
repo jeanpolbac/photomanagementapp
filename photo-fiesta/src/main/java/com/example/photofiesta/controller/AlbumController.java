@@ -51,7 +51,7 @@ public class AlbumController {
     public ResponseEntity<?> createAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @RequestBody Photo photoObject){
         Photo photo = albumService.createAlbumPhoto(albumId,photoObject);
         if(photo != null){
-            message.put("message","success, photo added to default album");
+            message.put("message","success, photo added to selected album");
             message.put("data",photo);
             return new ResponseEntity<>(message,HttpStatus.CREATED);
         } else {

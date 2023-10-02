@@ -54,12 +54,16 @@ public class AlbumService {
      * @throws InformationNotFoundException If the specified album or user does not exist.
      */
     public Photo createAlbumPhoto(Long albumId, Photo photoObject) {
-        Album album = albumRepository.findByIdAndUserId(albumId,getCurrentLoggedInUser().getId());
-        Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),album.getId());
+        Album album = albumRepository.findByIdAndUserId(albumId, getCurrentLoggedInUser().getId());
+        if(album == null){
+            photoObject.setAlbum(albumRepository.findByIdAndUserId(1L, getCurrentLoggedInUser().getId()));
+        } else {
+            photoObject.setAlbum(album);
+        }
+        Photo photo = photoRepository.findByImageUrlAndAlbumId(photoObject.getImageUrl(),photoObject.getAlbum().getId());
         if(photo != null){
             throw new InformationExistException("A photo with the image url " + photoObject.getImageUrl() + " already exists!");
         }
-        photoObject.setAlbum(album);
         return photoRepository.save(photoObject);
     }
 
