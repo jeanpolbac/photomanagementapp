@@ -51,4 +51,18 @@ public class AlbumService {
             throw new InformationNotFoundException("album with id: " + albumId + " doesn't exist");
         }
     }
+
+    public Photo getAlbumPhoto(Long albumId, Long photoId) {
+        Optional<Album> albumOptional = Optional.ofNullable(albumRepository.findByIdAndUserId(albumId, 1L));
+        if (albumOptional.isPresent()) {
+            Optional<Photo> photoOptional = photoRepository.findByAlbumId(albumId).stream().filter(p -> p.getId().equals(photoId)).findFirst();
+            if (photoOptional.isEmpty()) {
+                throw new InformationNotFoundException("photo with id: " + photoId + "in this album does not exist");
+            } else {
+                return photoOptional.get();
+            }
+        } else {
+            throw new InformationNotFoundException("album with id: " + albumId + " doesn't exist");
+        }
+    }
 }
