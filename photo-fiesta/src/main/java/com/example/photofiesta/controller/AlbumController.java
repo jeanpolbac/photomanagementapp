@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -57,4 +58,18 @@ public class AlbumController {
             return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/albums/{albumId}/photos/{photoId}/")
+    public ResponseEntity<?> getAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @PathVariable(value = "photoId") Long photoId) {
+        Optional<Photo> photoOptional = Optional.ofNullable(albumService.getAlbumPhoto(albumId, photoId));
+        if (photoOptional.isPresent()) {
+            message.put("message", "success");
+            message.put("data", photoOptional.get());
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } else {
+            message.put("message", "cannot find photo in album");
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
