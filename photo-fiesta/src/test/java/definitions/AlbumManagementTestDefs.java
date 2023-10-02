@@ -144,12 +144,15 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     }
 
     @When("I view a single photo in my album")
-    public void iViewASinglePhotoInMyAlbum() {
-        Photo getPhotoExample = albumService.getAlbumPhoto(1L, 1L);
-        Assert.assertNotNull(getPhotoExample);
+    public void iViewASinglePhotoInMyAlbum() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTKey());
+        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.GET, new HttpEntity<>(headers), String.class);
     }
 
     @Then("I see a single photo")
     public void iSeeASinglePhoto() {
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+
     }
 }
