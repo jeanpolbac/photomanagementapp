@@ -44,4 +44,8 @@ public class AlbumController {
         }
     }
 
+    @GetMapping("/albums/{albumId}/photos/")
+    public ResponseEntity<?> getPhotos(@PathVariable(value = "albumId") Long albumId) {
+        return (ResponseEntity<?>) ResponseEntity.ok();
+    }
 }
