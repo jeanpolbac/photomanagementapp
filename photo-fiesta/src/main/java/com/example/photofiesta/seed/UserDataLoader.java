@@ -49,9 +49,14 @@ public class UserDataLoader implements CommandLineRunner {
             if (user1.getAlbumList() == null) {
                 user1.setAlbumList(new ArrayList<>());
             }
+            userRepository.save(user1);
+
             Album defaultAlbum = new Album();
             defaultAlbum.setName(user1.getUserName() + "'s Album");
             defaultAlbum.setUser(user1);
+
+            albumRepository.save(defaultAlbum);
+
             user1.getAlbumList().add(defaultAlbum);
             userRepository.save(user1);
 

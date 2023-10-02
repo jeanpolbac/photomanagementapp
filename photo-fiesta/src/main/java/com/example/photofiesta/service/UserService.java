@@ -4,6 +4,7 @@ import com.example.photofiesta.exception.InformationExistException;
 import com.example.photofiesta.models.Album;
 import com.example.photofiesta.models.User;
 import com.example.photofiesta.models.request.LoginRequest;
+import com.example.photofiesta.repository.AlbumRepository;
 import com.example.photofiesta.repository.UserRepository;
 import com.example.photofiesta.security.JWTUtils;
 import com.example.photofiesta.security.MyUserDetails;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AlbumRepository albumRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -32,8 +34,9 @@ public class UserService {
 
 
     @Autowired
-    public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, JWTUtils jwtUtils, @Lazy AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, AlbumRepository albumRepository, @Lazy PasswordEncoder passwordEncoder, JWTUtils jwtUtils, @Lazy AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
+        this.albumRepository = albumRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
@@ -56,6 +59,8 @@ public class UserService {
             defaultAlbum.setUser(userObject);
             userObject.getAlbumList().add(defaultAlbum);
             userRepository.save(userObject);
+
+            albumRepository.save(defaultAlbum);
             return userObject;
         } else {
             throw new InformationExistException("user email address " + userObject.getEmailAddress() + " already exists");
