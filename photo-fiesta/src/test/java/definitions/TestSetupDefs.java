@@ -19,7 +19,7 @@ public class TestSetupDefs {
 
     // Album Endpoints
     public static final String userAlbumsEndpoint = "/api/albums/";
-    public static final String userSpecificAlbumEnpoint = "/api/albums/1";
+    public static final String userSpecificAlbumEnpoint = "/api/albums/1/";
 
 
     // Content-Type Json
