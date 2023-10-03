@@ -1,0 +1,5 @@
+definitions/AlbumManagementTestDefs.class
+com/example/photofiesta/PhotoFiestaApplicationTests.class
+runners/TestRunner.class
+definitions/TestSetupDefs.class
+definitions/UserControllerTestDefs.class
