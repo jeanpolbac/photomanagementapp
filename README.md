@@ -71,11 +71,11 @@ We've embraced Agile methodologies to facilitate rapid development and adaptatio
 
 You can explore our [GitHub Project Board](https://github.com/users/jeanpolbac/projects/2/views/1) to gain insights into our project's progress and see how we organize and prioritize tasks.
 
-![GitHub PB Screenshot](./github-project-board.jpg)
+![GitHub PB Screenshot](Images/github-project-board.jpg)
 ### Entity-Relationship Diagram (ERD)
 To model our data structure effectively, we've created an Entity-Relationship Diagram (ERD). This visual representation maps out the relationships between different entities in our system, such as users, albums, and photos. The ERD serves as a blueprint for our database design, ensuring that data is organized and structured efficiently.
 
-![ERD Diagram Image](./erd-diagram-correct.png)
+![ERD Diagram Image](Images/erd-diagram-correct.png)
 
 ### Model View Controller Design (MVC)
 Implement MVC Architecture to aid in separation of concerns. 
