@@ -43,9 +43,9 @@ public class UserDataLoader implements CommandLineRunner {
     private void loadUserData(){
         if(userRepository.count() == 0){
             User user1 = new User();
-            user1.setUserName("JohnDoe");
-            user1.setEmailAddress("john.doe@example.com");
-            user1.setPassword(passwordEncoder.encode("hashed_password123"));
+            user1.setUserName("Johnny");
+            user1.setEmailAddress("john.doe@photofiesta.com");
+            user1.setPassword(passwordEncoder.encode("password123"));
             if (user1.getAlbumList() == null) {
                 user1.setAlbumList(new ArrayList<>());
             }
@@ -53,6 +53,7 @@ public class UserDataLoader implements CommandLineRunner {
 
             Album defaultAlbum = new Album();
             defaultAlbum.setName(user1.getUserName() + "'s Album");
+            defaultAlbum.setDescription("My default album");
             defaultAlbum.setUser(user1);
 
             albumRepository.save(defaultAlbum);
@@ -61,24 +62,40 @@ public class UserDataLoader implements CommandLineRunner {
             userRepository.save(user1);
 
             Album secondAlbum = new Album();
-            secondAlbum.setName(user1.getUserName() + "'s second Album");
+            secondAlbum.setName(user1.getUserName() + "'s Favorite's Album");
+            secondAlbum.setDescription("My favorite photos!");
             secondAlbum.setUser(user1);
             albumRepository.save(secondAlbum);
+            user1.getAlbumList().add(secondAlbum);
+
+            Album thirdAlbum = new Album();
+            thirdAlbum.setName(user1.getUserName() + "'s Vacation Album");
+            thirdAlbum.setDescription("My vacation photos!");
+            thirdAlbum.setUser(user1);
+            albumRepository.save(thirdAlbum);
+            user1.getAlbumList().add(thirdAlbum);
 
             Photo photo1 = new Photo(null,
-                    "Beach",
-                    "A beautiful beach",
-                    "http://example.com/beach.jpg",
+                    "Selfie",
+                    "A beautiful Face",
+                    "http://example.com/johnnys_first_selfie.jpg",
                     user1.getAlbumList().get(0)
             );
             photoRepository.save(photo1);
             Photo photo2 = new Photo(null,
-                    "Desert",
-                    "A sand dune",
-                    "http://example.com/desert.jpg",
-                    user1.getAlbumList().get(0)
+                    "Taco's!!!",
+                    "BEST TACO EVER!!!",
+                    "http://example.com/taco.jpg",
+                    user1.getAlbumList().get(1)
             );
             photoRepository.save(photo2);
+            Photo photo3 = new Photo(null,
+                    "Myrtle Beach",
+                    "A hot day at the beach",
+                    "http://example.com/myrtle_beach.jpg",
+                    user1.getAlbumList().get(2)
+            );
+            photoRepository.save(photo3);
         }
     }
 
