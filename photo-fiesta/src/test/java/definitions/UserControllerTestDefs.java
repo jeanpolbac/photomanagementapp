@@ -48,7 +48,7 @@ public class UserControllerTestDefs extends TestSetupDefs {
     @Given("The register url is {string}")
     public void theRegisterUrl(String url) {
         response = RestAssured.given().contentType(ContentType.JSON).when().post(BASE_URL + port + url);
-        Assert.assertEquals(400, response.getStatusCode()); //ToDo refactor to assertFalse 403 ?
+        Assert.assertEquals(400, response.getStatusCode());
     }
 
     @When("User sends a POST request with user details")
@@ -57,9 +57,9 @@ public class UserControllerTestDefs extends TestSetupDefs {
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         JSONObject requestBody = new JSONObject();
-        requestBody.put("userName","slickrick");
-        requestBody.put("emailAddress","slick@gmail.com");
-        requestBody.put("password","password123");
+        requestBody.put("userName","photofiestateam");
+        requestBody.put("emailAddress","photofiestateam@gmail.com");
+        requestBody.put("password","password12345");
         request.header("Content-Type","application/json");
         response = request.body(requestBody.toString()).post(BASE_URL + port + registerEndpoint);
     }
@@ -81,8 +81,8 @@ public class UserControllerTestDefs extends TestSetupDefs {
     public void theRegisteredUserExists() throws JSONException {
         RequestSpecification request = RestAssured.given();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("emailAddress", "john.doe@example.com");
-        jsonObject.put("password","hashed_password123");
+        jsonObject.put("emailAddress", "john.doe@photofiesta.com");
+        jsonObject.put("password","password123");
         response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + loginEndpoint);
     }
     @When("The user details are validated")
