@@ -16,6 +16,13 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+../.idea
+../.idea/misc.xml
+../.idea/modules.xml
+../.idea/photomanagementapp.iml
+../.idea/vcs.xml
+../.idea/workspace.xml
+
 *.iws
 *.iml
 *.ipr
