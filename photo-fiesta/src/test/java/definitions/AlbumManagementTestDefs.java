@@ -55,8 +55,8 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
         // Create a JSON request body with user email and password
         JSONObject requestBody = new JSONObject();
-        requestBody.put("emailAddress", "john.doe@example.com");
-        requestBody.put("password", "hashed_password123");
+        requestBody.put("emailAddress", "john.doe@photofiesta.com");
+        requestBody.put("password", "password123");
 
         // Send a POST request to the authentication endpoint
         Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
