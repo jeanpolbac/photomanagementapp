@@ -142,7 +142,7 @@ To get started with Photo Fiesta and install its dependencies, follow these step
 ### Development Team
  - Ashley Shakir: [GitHub](https://github.com/ashleyshakir) | [LinkedIn](https://www.linkedin.com/in/ashleymshakir/)
  - JP Bacquet: [Github](https://github.com/jeanpolbac) | [LinkedIn](https://www.linkedin.com/in/jpbacquet/)
- - Rick Maya: [GitHub](https://gist.github.com/rickstylz01) 
+ - Rick Maya: [GitHub](https://gist.github.com/rickstylz01) | [LinkedIn](https://www.linkedin.com/in/rickmaya/)
 
 ### General Assembly Instructors
 - Suresh Sigera: [GitHub](https://github.com/sureshmelvinsigera)
