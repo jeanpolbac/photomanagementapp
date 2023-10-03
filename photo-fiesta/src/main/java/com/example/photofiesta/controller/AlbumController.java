@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -88,10 +89,10 @@ public class AlbumController {
 
     @PostMapping("/albums/{albumId}/photos/")
     public ResponseEntity<?> createAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @RequestBody Photo photoObject){
-        Photo photo = albumService.createAlbumPhoto(albumId,photoObject);
-        if(photo != null){
-            message.put("message","success, photo added to selected album");
-            message.put("data",photo);
+        Map<String, Object> response = albumService.createAlbumPhoto(albumId,photoObject);
+        if(response.get("photo") != null){
+            message.put("message", response.get("message"));
+            message.put("data",response.get("photo"));
             return new ResponseEntity<>(message,HttpStatus.CREATED);
         } else {
             message.put("message", "unable to add new photo");
