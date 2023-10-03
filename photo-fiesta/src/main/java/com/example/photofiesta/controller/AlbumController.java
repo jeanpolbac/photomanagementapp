@@ -49,7 +49,7 @@ public class AlbumController {
     }
 
     @GetMapping("/albums/{albumId}/photos/")
-    public ResponseEntity<?> getPhotos(@PathVariable(value = "albumId") Long albumId) {
+    public ResponseEntity<?> getAlbumPhotos(@PathVariable(value = "albumId") Long albumId) {
         List<Photo> photoList = albumService.getAlbumPhotos(albumId);
         if (photoList.isEmpty()) {
             message.put("message", "cannot find photos in album");
@@ -100,7 +100,7 @@ public class AlbumController {
         }
     }
 
-    @PutMapping("/albums/{albumId}/photos/{photoId}")
+    @PutMapping("/albums/{albumId}/photos/{photoId}/")
     public ResponseEntity<?> updateAlbumPhoto(@PathVariable(value = "albumId") Long albumId, @PathVariable(value = "photoId") Long photoId,@RequestBody Photo photoObject){
         Optional<Photo> photoToUpdate = Optional.of(albumService.updateAlbumPhoto(albumId,photoId,photoObject));
         if(photoToUpdate.isEmpty()){

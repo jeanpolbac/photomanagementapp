@@ -138,7 +138,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
             // Build our post request
             HttpEntity<String> entity = new HttpEntity<>(null, headers);
-            response = new RestTemplate().exchange(BASE_URL + port + userSpecificAlbumEnpoint, HttpMethod.DELETE, entity, String.class);
+            response = new RestTemplate().exchange(BASE_URL + port + userSpecificAlbumEndpoint, HttpMethod.DELETE, entity, String.class);
             logger.info("Response Status: " + response.getStatusCode());
         } catch (Exception e) {
             logger.warning("Test: Error while deleting an album " + e.getMessage());
@@ -152,9 +152,23 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+// error starts here
+    @When("I view a single photo in my album")
+    public void iViewASinglePhotoInMyAlbum() throws JSONException {
+    response = new RestTemplate().exchange(BASE_URL + port + albumSpecificPhotoEndpoint, HttpMethod.GET, new HttpEntity<>(createAuthHeaders()), String.class);
+    }
+
+    @Then("I see a single photo")
+    public void iSeeASinglePhoto() {
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
     @When("I view the photos in my album")
     public void iViewThePhotosInMyAlbum() throws JSONException {
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.GET, new HttpEntity<>(createAuthHeaders()), String.class);
+        HttpHeaders headers = createAuthHeaders();
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        response = new RestTemplate().exchange(BASE_URL + port + albumPhotosEndpoint, HttpMethod.GET, entity, String.class);
     }
 
     @Then("I see a list of photos")
@@ -172,22 +186,12 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
         requestBody.put("imageUrl","http://test-image/image.jpeg");
         // Build our post request
         HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), createAuthHeaders());
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/", HttpMethod.POST, entity, String.class);
+        response = new RestTemplate().exchange(BASE_URL + port + albumPhotosEndpoint, HttpMethod.POST, entity, String.class);
     }
 
     @Then("The photo is added to my default album")
     public void thePhotoIsAddedToMyDefaultAlbum() {
         Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @When("I view a single photo in my album")
-    public void iViewASinglePhotoInMyAlbum() throws JSONException {
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.GET, new HttpEntity<>(createAuthHeaders()), String.class);
-    }
-
-    @Then("I see a single photo")
-    public void iSeeASinglePhoto() {
-            Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @When("I update a photo")
@@ -200,7 +204,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
 
         // Build our put request
         HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), createAuthHeaders());
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.PUT, entity, String.class);
+        response = new RestTemplate().exchange(BASE_URL + port + albumSpecificPhotoEndpoint, HttpMethod.PUT, entity, String.class);
     }
 
     @Then("The photo is updated")
@@ -211,7 +215,7 @@ public class AlbumManagementTestDefs extends TestSetupDefs {
     @When("I delete a photo from an album")
     public void iDeleteAPhotoFromAnAlbum() throws JSONException {
         // Build and send the DELETE request to your endpoint
-        response = new RestTemplate().exchange(BASE_URL + port + "/api/albums/1/photos/1/", HttpMethod.DELETE, new HttpEntity<>(createAuthHeaders()), String.class);
+        response = new RestTemplate().exchange(BASE_URL + port + albumSpecificPhotoEndpoint, HttpMethod.DELETE, new HttpEntity<>(createAuthHeaders()), String.class);
 
     }
 
